@@ -18,23 +18,25 @@ import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { IClientLogin } from "@/types";
+import { IClientRegister } from "@/types";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const formSchema = yup.object().shape({
+    name: yup.string().required("Nome obrigatório"),
     email: yup.string().email().required("E-mail obrigatório"),
     password: yup.string().required("Senha obrigatório"),
+    telephone: yup.string().required("Telefone obrigatório"),
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IClientLogin>({ resolver: yupResolver(formSchema) });
+  } = useForm<IClientRegister>({ resolver: yupResolver(formSchema) });
 
-  const onFormSubmit = (formData: IClientLogin) => {
+  const onFormSubmit = (formData: IClientRegister) => {
     console.log(formData);
   };
 
@@ -55,7 +57,7 @@ const LoginForm = () => {
         <Stack spacing={8} mx={"auto"} maxW={"lg"} pt={12} px={6}>
           <Stack align={"center"}>
             <Heading fontSize={"4xl"} textAlign={"center"}>
-              Login
+              Cadastro
             </Heading>
           </Stack>
           <Box
@@ -65,6 +67,16 @@ const LoginForm = () => {
             p={8}
           >
             <Stack spacing={4} minW={"200px"}>
+              <FormControl id="name" isRequired>
+                <FormLabel>Nome</FormLabel>
+                <Input
+                  required
+                  borderColor="black.300"
+                  focusBorderColor="purple.300"
+                  type="text"
+                  {...register("name")}
+                />
+              </FormControl>
               <FormControl id="email" isRequired>
                 <FormLabel>E-mail</FormLabel>
                 <Input
@@ -97,7 +109,16 @@ const LoginForm = () => {
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
-
+              <FormControl id="telephone" isRequired>
+                <FormLabel>Telefone</FormLabel>
+                <Input
+                  required
+                  borderColor="black.300"
+                  focusBorderColor="purple.300"
+                  type="text"
+                  {...register("telephone")}
+                />
+              </FormControl>
               <Stack spacing={10} pt={2}>
                 <Button
                   loadingText="Submitting"
@@ -109,7 +130,7 @@ const LoginForm = () => {
                     color: "white",
                   }}
                 >
-                  Entrar
+                  Cadastrar
                 </Button>
               </Stack>
             </Stack>
@@ -127,8 +148,8 @@ const LoginForm = () => {
             color: "white",
           }}
         >
-          <Link as={NextLink} href={`/client/register`}>
-            Cadastrar
+          <Link as={NextLink} href={`/login`}>
+            Login
           </Link>
         </Button>
       </Stack>
@@ -136,4 +157,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

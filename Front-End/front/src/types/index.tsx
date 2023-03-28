@@ -1,4 +1,4 @@
-interface IClient {
+export interface IClient {
   id: string;
   name: string;
   email: string;
@@ -7,4 +7,14 @@ interface IClient {
   orderAt: Date;
 }
 
-export default IClient;
+export interface IClientRegister {
+  name: string;
+  email: string;
+  password: string;
+  telephone: string;
+}
+
+export interface IClientLogin {
+  email: string;
+  password: string;
+}

@@ -1,11 +1,11 @@
 import { GetServerSideProps, NextPage } from "next";
 import api from "@/services/api";
-import IClient from "@/types";
+import { IClientRegister } from "@/types";
 import { Center, List, ListItem, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 interface Props {
-  clients: IClient[];
+  clients: IClientRegister[];
 }
 
 const Home: NextPage<Props> = ({ clients }) => {
@@ -15,7 +15,7 @@ const Home: NextPage<Props> = ({ clients }) => {
         {clients.map((client, index) => {
           return (
             <ListItem key={index}>
-              <Link as={NextLink} href={`/client/${client.id}`}>
+              <Link as={NextLink} href={`/client/${client.name}`}>
                 {client.name}
               </Link>
             </ListItem>
@@ -30,7 +30,7 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const response = await api.get("/client");
-  const clients: IClient[] = response.data;
+  const clients: IClientRegister[] = response.data;
 
   return { props: { clients } };
 };

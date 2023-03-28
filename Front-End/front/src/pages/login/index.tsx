@@ -1,34 +1,13 @@
-import { NextPage } from "next";
-import IClient from "@/types";
-import { Center, Link } from "@chakra-ui/react";
-import NextLink from "next/link";
+import { Center } from "@chakra-ui/react";
 
-interface Props {
-  clients: IClient[];
-}
+import LoginForm from "@/components/loginForm";
 
-const Login: NextPage<Props> = () => {
+const Login = () => {
   return (
     <Center>
-      <form action="">
-        <label htmlFor="email">Email</label>
-        <input id="email" type="email" />
-        <label htmlFor="password">Senha</label>
-        <input id="password" type="password" />
-        <button>Login</button>
-      </form>
-      <Link as={NextLink} href={`/client/register`}>
-        Cadastrar
-      </Link>
+      <LoginForm />
     </Center>
   );
 };
 
 export default Login;
-
-// export const getServerSideProps: GetServerSideProps<Props> = async () => {
-//   const response = await api.get("/login");
-//   const clients: IClient[] = response.data;
-
-//   return { props: { clients } };
-// };
