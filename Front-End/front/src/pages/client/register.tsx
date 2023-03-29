@@ -3,7 +3,7 @@ import RegisterForm from "@/components/registerForm";
 
 const Register = () => {
   return (
-    <Center>
+    <Center h={"100vh"} alignItems={"center"} justifyContent={"center"}>
       <RegisterForm />
     </Center>
   );

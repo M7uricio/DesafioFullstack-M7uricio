@@ -19,9 +19,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IClientLogin } from "@/types";
+import { useAuth } from "@/contexts/authContext";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
 
   const formSchema = yup.object().shape({
     email: yup.string().email().required("E-mail obrigatório"),
@@ -35,24 +37,27 @@ const LoginForm = () => {
   } = useForm<IClientLogin>({ resolver: yupResolver(formSchema) });
 
   const onFormSubmit = (formData: IClientLogin) => {
-    console.log(formData);
+    login(formData);
   };
 
   return (
     <Flex
       minH={"80vh"}
-      align={"center"}
+      alignItems={"center"}
       justify={"center"}
       flexDirection={"column"}
+      border={"1px"}
+      borderColor={"purple.700"}
+      borderRadius={"5px"}
     >
       <Flex
-        align={"center"}
+        alignItems={"center"}
         justify={"center"}
         as="form"
         bg={useColorModeValue("gray.50", "gray.800")}
         onSubmit={handleSubmit(onFormSubmit)}
       >
-        <Stack spacing={8} mx={"auto"} maxW={"lg"} pt={12} px={6}>
+        <Stack spacing={8} mx={"auto"} maxW={"lg"} px={6}>
           <Stack align={"center"}>
             <Heading fontSize={"4xl"} textAlign={"center"}>
               Login
@@ -70,7 +75,7 @@ const LoginForm = () => {
                 <Input
                   required
                   borderColor="black.300"
-                  focusBorderColor="purple.300"
+                  focusBorderColor="purple.700"
                   type="email"
                   {...register("email")}
                 />
@@ -81,7 +86,7 @@ const LoginForm = () => {
                   <Input
                     required
                     borderColor="black.300"
-                    focusBorderColor="purple.300"
+                    focusBorderColor="purple.700"
                     type={showPassword ? "text" : "password"}
                     {...register("password")}
                   />
@@ -104,9 +109,10 @@ const LoginForm = () => {
                   size="lg"
                   type="submit"
                   variant={"default"}
+                  bg="purple.700"
+                  color="white"
                   _hover={{
-                    bg: "purple.700",
-                    color: "white",
+                    bg: "purple.600",
                   }}
                 >
                   Entrar
@@ -116,15 +122,16 @@ const LoginForm = () => {
           </Box>
         </Stack>
       </Flex>
-      <Stack spacing={4} minW={"230px"}>
+      <Stack spacing={4} minW={"245px"}>
         <Button
           loadingText="Submitting"
           size="lg"
           type="submit"
           variant={"default"}
+          bg="purple.700"
+          color="white"
           _hover={{
-            bg: "purple.700",
-            color: "white",
+            bg: "purple.600",
           }}
         >
           <Link as={NextLink} href={`/client/register`}>

@@ -19,9 +19,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IClientRegister } from "@/types";
+import { useRegister } from "@/contexts/registerContext";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+
+  const { registerClient } = useRegister();
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Nome obrigatório"),
@@ -37,7 +40,7 @@ const RegisterForm = () => {
   } = useForm<IClientRegister>({ resolver: yupResolver(formSchema) });
 
   const onFormSubmit = (formData: IClientRegister) => {
-    console.log(formData);
+    registerClient(formData);
   };
 
   return (
@@ -46,6 +49,10 @@ const RegisterForm = () => {
       align={"center"}
       justify={"center"}
       flexDirection={"column"}
+      border={"1px"}
+      borderColor={"purple.700"}
+      borderRadius={"5px"}
+      pb={"30px"}
     >
       <Flex
         align={"center"}
@@ -54,7 +61,7 @@ const RegisterForm = () => {
         bg={useColorModeValue("gray.50", "gray.800")}
         onSubmit={handleSubmit(onFormSubmit)}
       >
-        <Stack spacing={8} mx={"auto"} maxW={"lg"} pt={12} px={6}>
+        <Stack spacing={8} mx={"auto"} maxW={"lg"} pt={"30px"} px={6}>
           <Stack align={"center"}>
             <Heading fontSize={"4xl"} textAlign={"center"}>
               Cadastro
@@ -72,7 +79,7 @@ const RegisterForm = () => {
                 <Input
                   required
                   borderColor="black.300"
-                  focusBorderColor="purple.300"
+                  focusBorderColor="purple.700"
                   type="text"
                   {...register("name")}
                 />
@@ -82,7 +89,7 @@ const RegisterForm = () => {
                 <Input
                   required
                   borderColor="black.300"
-                  focusBorderColor="purple.300"
+                  focusBorderColor="purple.700"
                   type="email"
                   {...register("email")}
                 />
@@ -93,7 +100,7 @@ const RegisterForm = () => {
                   <Input
                     required
                     borderColor="black.300"
-                    focusBorderColor="purple.300"
+                    focusBorderColor="purple.700"
                     type={showPassword ? "text" : "password"}
                     {...register("password")}
                   />
@@ -114,7 +121,7 @@ const RegisterForm = () => {
                 <Input
                   required
                   borderColor="black.300"
-                  focusBorderColor="purple.300"
+                  focusBorderColor="purple.700"
                   type="text"
                   {...register("telephone")}
                 />
@@ -125,9 +132,10 @@ const RegisterForm = () => {
                   size="lg"
                   type="submit"
                   variant={"default"}
+                  bg="purple.700"
+                  color="white"
                   _hover={{
-                    bg: "purple.700",
-                    color: "white",
+                    bg: "purple.600",
                   }}
                 >
                   Cadastrar
@@ -137,18 +145,19 @@ const RegisterForm = () => {
           </Box>
         </Stack>
       </Flex>
-      <Stack spacing={4} minW={"230px"}>
+      <Stack spacing={4} minW={"245px"}>
         <Button
           loadingText="Submitting"
           size="lg"
           type="submit"
           variant={"default"}
+          bg="purple.700"
+          color="white"
           _hover={{
-            bg: "purple.700",
-            color: "white",
+            bg: "purple.600",
           }}
         >
-          <Link as={NextLink} href={`/login`}>
+          <Link as={NextLink} href={`/`}>
             Login
           </Link>
         </Button>

@@ -4,7 +4,7 @@ import LoginForm from "@/components/loginForm";
 
 const Login = () => {
   return (
-    <Center>
+    <Center h={"100vh"} alignItems={"center"} justifyContent={"center"}>
       <LoginForm />
     </Center>
   );
