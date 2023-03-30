@@ -5,16 +5,18 @@ import api from "@/services/api";
 import { Box, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-interface AuthProviderData {
+interface SessionProviderData {
   login: (userData: IClientLogin) => void;
   setToken: (value: string) => void;
   token: string | undefined;
   user: IClient | null;
 }
 
-const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
+const SessionContext = createContext<SessionProviderData>(
+  {} as SessionProviderData
+);
 
-export const AuthProvider = ({ children }: IProviderProps) => {
+export const SessionProvider = ({ children }: IProviderProps) => {
   const toast = useToast();
   const router = useRouter();
   const [token, setToken] = useState<string>();
@@ -29,6 +31,14 @@ export const AuthProvider = ({ children }: IProviderProps) => {
           path: "/",
         });
         setCookie(null, "userName", response.data.user.name, {
+          maxAge: 60 * 30,
+          path: "/",
+        });
+        setCookie(null, "userEmail", response.data.user.email, {
+          maxAge: 60 * 30,
+          path: "/",
+        });
+        setCookie(null, "userFone", response.data.user.telephone, {
           maxAge: 60 * 30,
           path: "/",
         });
@@ -79,10 +89,10 @@ export const AuthProvider = ({ children }: IProviderProps) => {
       });
   };
   return (
-    <AuthContext.Provider value={{ login, token, user, setToken }}>
+    <SessionContext.Provider value={{ login, token, user, setToken }}>
       {children}
-    </AuthContext.Provider>
+    </SessionContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(SessionContext);

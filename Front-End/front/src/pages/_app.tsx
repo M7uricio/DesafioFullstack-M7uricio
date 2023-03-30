@@ -1,16 +1,19 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
-import { AuthProvider } from "@/contexts/authContext";
-import { RegisterProvider } from "@/contexts/registerContext";
+import { SessionProvider } from "@/contexts/sessionContext";
+import { ClientProvider } from "@/contexts/clientContext";
+import { ContactProvider } from "@/contexts/contactContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
-      <AuthProvider>
-        <RegisterProvider>
-          <Component {...pageProps} />
-        </RegisterProvider>
-      </AuthProvider>
+      <SessionProvider>
+        <ClientProvider>
+          <ContactProvider>
+            <Component {...pageProps} />
+          </ContactProvider>
+        </ClientProvider>
+      </SessionProvider>
     </ChakraProvider>
   );
 }

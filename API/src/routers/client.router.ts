@@ -3,6 +3,7 @@ import {
   createClientController,
   deleteClientController,
   listClientController,
+  readClientController,
   updateClientController,
 } from "../controllers/client.controller";
 import {
@@ -21,6 +22,9 @@ clientRouter.post(
   createClientController
 );
 clientRouter.get("", listClientController);
+
+clientRouter.get("/:id", readClientController);
+
 clientRouter.patch(
   "/:id",
   emailClientMiddleware,

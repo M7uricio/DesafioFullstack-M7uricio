@@ -1,27 +1,29 @@
 import { createContext, useContext } from "react";
-import { IRegisterandUpdateContacts, IProviderProps } from "@/types";
+import { IRegisterAndUpdateClient, IProviderProps } from "@/types";
 import api from "@/services/api";
 import { Box, useToast } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { destroyCookie } from "nookies";
 import nookies from "nookies";
-interface ContactProviderData {
-  createContact: (contactData: IRegisterandUpdateContacts) => void;
-  updateContact: (contactData: IRegisterandUpdateContacts, id: string) => void;
-  deleteContact: (id: string) => void;
+
+interface ClientProviderData {
+  registerClient: (userData: IRegisterAndUpdateClient) => void;
+  updateClient: (userData: IRegisterAndUpdateClient) => void;
+  deleteClient: () => void;
 }
 
-const ContactContext = createContext<ContactProviderData>(
-  {} as ContactProviderData
+const ClientContext = createContext<ClientProviderData>(
+  {} as ClientProviderData
 );
 
-export const ContactProvider = ({ children }: IProviderProps) => {
+export const ClientProvider = ({ children }: IProviderProps) => {
   const toast = useToast();
+  const router = useRouter();
   const cookies = nookies.get();
 
-  const createContact = (contactData: IRegisterandUpdateContacts) => {
+  const registerClient = (userData: IRegisterAndUpdateClient) => {
     api
-      .post("/contacts", contactData, {
-        headers: { Authorization: `Bearer ${cookies["token"]}` },
-      })
+      .post("/client", userData)
       .then((response) => {
         toast({
           title: "sucess",
@@ -36,7 +38,50 @@ export const ContactProvider = ({ children }: IProviderProps) => {
               fontWeight={"bold"}
               borderRadius={"md"}
             >
-              Contato adicionado com sucesso !
+              Cadastro realizado com sucesso !
+            </Box>
+          ),
+        });
+        router.push("/");
+      })
+      .catch((err) => {
+        toast({
+          title: "error",
+          variant: "solid",
+          position: "top-right",
+          isClosable: true,
+          render: () => (
+            <Box
+              color={"gray.50"}
+              p={3}
+              bg={"red.600"}
+              fontWeight={"bold"}
+              borderRadius={"md"}
+            >
+              Verifique se os dados estão corretos
+            </Box>
+          ),
+        });
+      });
+  };
+  const updateClient = (userData: IRegisterAndUpdateClient) => {
+    api
+      .patch(`/client/${cookies["userId"]}`, userData)
+      .then((response) => {
+        toast({
+          title: "sucess",
+          variant: "solid",
+          position: "top-right",
+          isClosable: true,
+          render: () => (
+            <Box
+              color={"gray.50"}
+              p={3}
+              bg={"green.600"}
+              fontWeight={"bold"}
+              borderRadius={"md"}
+            >
+              Atualização realizada com sucesso !
             </Box>
           ),
         });
@@ -61,16 +106,14 @@ export const ContactProvider = ({ children }: IProviderProps) => {
         });
       });
   };
-
-  const updateContact = (
-    contactData: IRegisterandUpdateContacts,
-    id: string
-  ) => {
+  const deleteClient = () => {
     api
-      .patch(`/contacts/${id}`, contactData, {
-        headers: { Authorization: `Bearer ${cookies["token"]}` },
-      })
+      .delete(`/client/${cookies["userId"]}`)
       .then((response) => {
+        destroyCookie(null, "token");
+        destroyCookie(null, "userName");
+        destroyCookie(null, "userId");
+        router.push("/");
         toast({
           title: "sucess",
           variant: "solid",
@@ -84,7 +127,7 @@ export const ContactProvider = ({ children }: IProviderProps) => {
               fontWeight={"bold"}
               borderRadius={"md"}
             >
-              Contato atualizado com sucesso !
+              Deletado com sucesso !
             </Box>
           ),
         });
@@ -103,65 +146,19 @@ export const ContactProvider = ({ children }: IProviderProps) => {
               fontWeight={"bold"}
               borderRadius={"md"}
             >
-              Verifique se os dados estão corretos
+              Algo deu errado
             </Box>
           ),
         });
       });
   };
-
-  const deleteContact = (id: string) => {
-    api
-      .delete(`/contacts/${id}`, {
-        headers: { Authorization: `Bearer ${cookies["token"]}` },
-      })
-      .then((response) => {
-        toast({
-          title: "sucess",
-          variant: "solid",
-          position: "top-right",
-          isClosable: true,
-          render: () => (
-            <Box
-              color={"gray.50"}
-              p={3}
-              bg={"green.600"}
-              fontWeight={"bold"}
-              borderRadius={"md"}
-            >
-              Contato deletado com sucesso !
-            </Box>
-          ),
-        });
-      })
-      .catch((err) => {
-        toast({
-          title: "error",
-          variant: "solid",
-          position: "top-right",
-          isClosable: true,
-          render: () => (
-            <Box
-              color={"gray.50"}
-              p={3}
-              bg={"red.600"}
-              fontWeight={"bold"}
-              borderRadius={"md"}
-            >
-              Não foi possivel deletar o contato
-            </Box>
-          ),
-        });
-      });
-  };
-
   return (
-    <ContactContext.Provider
-      value={{ createContact, updateContact, deleteContact }}
+    <ClientContext.Provider
+      value={{ registerClient, updateClient, deleteClient }}
     >
       {children}
-    </ContactContext.Provider>
+    </ClientContext.Provider>
   );
 };
 
-export const useContact = () => useContext(ContactContext);
+export const useClient = () => useContext(ClientContext);

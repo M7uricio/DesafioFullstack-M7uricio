@@ -4,6 +4,7 @@ import api from "@/services/api";
 import { IContacts } from "@/types";
 import { GetServerSideProps, NextPage } from "next";
 import nookies from "nookies";
+import { useEffect, useState } from "react";
 
 interface Props {
   contacts: IContacts[];
@@ -29,7 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
-
   const response = await api.get("/contacts", {
     headers: { Authorization: `Bearer ${cookies["token"]}` },
   });

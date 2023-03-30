@@ -14,11 +14,11 @@ export interface IRenderClient {
   email: string;
 }
 
-export interface IClientRegister {
-  name: string;
-  email: string;
-  password: string;
-  telephone: string;
+export interface IRegisterAndUpdateClient {
+  name?: string;
+  email?: string;
+  password?: string;
+  telephone?: string;
 }
 
 export interface IClientLogin {

@@ -17,3 +17,11 @@ export interface IClientResponse {
   email?: string;
   telephone?: string;
 }
+
+export interface IClientRes {
+  id: number;
+  name: string;
+  email: string;
+  telephone: string;
+  orderedAt: string | Date;
+}

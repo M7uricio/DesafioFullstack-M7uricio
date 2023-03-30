@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import createClientService from "../services/client/create.services";
 import deleteClientService from "../services/client/delete.services";
 import listClientService from "../services/client/list.services";
+import readClientService from "../services/client/read.service";
 import updateClientService from "../services/client/update.services";
 
 export const createClientController = async (
@@ -17,6 +18,14 @@ export const listClientController = async (
   res: Response
 ): Promise<Response> => {
   const data = await listClientService();
+  return res.status(200).json(data);
+};
+
+export const readClientController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const data = await readClientService(+req.params.id);
   return res.status(200).json(data);
 };
 

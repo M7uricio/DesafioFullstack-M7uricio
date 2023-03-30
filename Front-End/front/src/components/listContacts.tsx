@@ -1,29 +1,16 @@
 import { IContacts } from "@/types";
-import {
-  Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Stack,
-  Button,
-  Heading,
-  useColorModeValue,
-  Link,
-  List,
-  ListItem,
-  Icon,
-  Text,
-} from "@chakra-ui/react";
+import { Flex, Button, List, ListItem, Icon, Text } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { useContact } from "@/contexts/contactContext";
+import ModalFormUpdateContact from "./modalFormUpdateContact";
 
 interface Props {
   contacts: IContacts[];
 }
 
 const ListContacts = ({ contacts }: Props) => {
+  const { deleteContact } = useContact();
+
   return (
     <>
       <Text
@@ -36,12 +23,14 @@ const ListContacts = ({ contacts }: Props) => {
         Lista de Contatos
       </Text>
       <List
-        w={"90%"}
+        w={"95%"}
         alignItems={"center"}
         justifyContent={"center"}
         flexDirection={"column"}
         m={"0 auto"}
         mt={"30px"}
+        maxH={"75vh"}
+        overflowY={"auto"}
       >
         {contacts.map((elm, index) => (
           <ListItem
@@ -59,7 +48,8 @@ const ListContacts = ({ contacts }: Props) => {
             <Flex
               fontSize={"1.2rem"}
               fontWeight={500}
-              minW={"40px"}
+              w={"10%"}
+              textAlign={"center"}
               justifyContent={"center"}
             >
               Id: {elm.id}
@@ -67,7 +57,8 @@ const ListContacts = ({ contacts }: Props) => {
             <Flex
               fontSize={"1.2rem"}
               fontWeight={500}
-              minW={"70px"}
+              w={"20%"}
+              textAlign={"center"}
               justifyContent={"center"}
             >
               Nome: {elm.name}
@@ -75,7 +66,8 @@ const ListContacts = ({ contacts }: Props) => {
             <Flex
               fontSize={"1.2rem"}
               fontWeight={500}
-              minW={"200px"}
+              w={"30%"}
+              textAlign={"center"}
               justifyContent={"center"}
             >
               E-mail: {elm.email}
@@ -83,21 +75,15 @@ const ListContacts = ({ contacts }: Props) => {
             <Flex
               fontSize={"1.2rem"}
               fontWeight={500}
-              minW={"150px"}
+              w={"20%"}
+              textAlign={"center"}
               justifyContent={"center"}
             >
               Telefone: {elm.telephone}
             </Flex>
-            <Flex gap={"20px"}>
-              <Button
-                bg={"yellow.300"}
-                _hover={{ bg: "yellow.100" }}
-                fontSize={"1.2rem"}
-                fontWeight={600}
-              >
-                Atualizar
-              </Button>
-              <Button w={"1.6rem"}>
+            <Flex gap={"10%"}>
+              <ModalFormUpdateContact id={elm.id} />
+              <Button w={"1.6rem"} onClick={() => deleteContact(elm.id)}>
                 <Icon
                   as={DeleteIcon}
                   color={"red"}

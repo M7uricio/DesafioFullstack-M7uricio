@@ -18,13 +18,13 @@ import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { IClientRegister } from "@/types";
-import { useRegister } from "@/contexts/registerContext";
+import { IRegisterAndUpdateClient } from "@/types";
+import { useClient } from "@/contexts/clientContext";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const { registerClient } = useRegister();
+  const { registerClient } = useClient();
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Nome obrigatório"),
@@ -37,9 +37,9 @@ const RegisterForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IClientRegister>({ resolver: yupResolver(formSchema) });
+  } = useForm<IRegisterAndUpdateClient>({ resolver: yupResolver(formSchema) });
 
-  const onFormSubmit = (formData: IClientRegister) => {
+  const onFormSubmit = (formData: IRegisterAndUpdateClient) => {
     registerClient(formData);
   };
 

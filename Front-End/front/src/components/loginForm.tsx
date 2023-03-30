@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IClientLogin } from "@/types";
-import { useAuth } from "@/contexts/authContext";
+import { useAuth } from "@/contexts/sessionContext";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
