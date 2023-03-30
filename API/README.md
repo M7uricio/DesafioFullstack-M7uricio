@@ -29,3 +29,5 @@ yarn dev
 Dessa forma o projeto está pronto para seu utilizado na url base [http://localhost:3001](http://localhost:3001)
 
 A API também está disponível na urlBase em produção:[https://desafio-full-stack.onrender.com](https://desafio-full-stack.onrender.com)
+
+Visite a documentação da API para saber mais detalhes: [https://documentation-api-desafio-full-stack-jh087j88c-entragaskenzie.vercel.app/](https://documentation-api-desafio-full-stack-jh087j88c-entragaskenzie.vercel.app/)

@@ -34,7 +34,7 @@ export const updateClientController = async (
   res: Response
 ): Promise<Response> => {
   const data = await updateClientService(req.body, +req.params.id);
-  return res.status(200).json(data);
+  return res.status(201).json(data);
 };
 
 export const deleteClientController = async (
@@ -42,5 +42,5 @@ export const deleteClientController = async (
   res: Response
 ): Promise<Response> => {
   const data = await deleteClientService(+req.params.id);
-  return res.status(200).json(data);
+  return res.status(204).json(data);
 };

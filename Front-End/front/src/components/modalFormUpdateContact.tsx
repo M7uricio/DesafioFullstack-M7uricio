@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Modal,
@@ -16,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IRegisterandUpdateContacts } from "@/types";
 import { useContact } from "@/contexts/contactContext";
+import { useState } from "react";
 
 const ModalFormUpdateContact = (id: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -23,10 +25,18 @@ const ModalFormUpdateContact = (id: any) => {
   const { updateContact } = useContact();
 
   const formschema = yup.object().shape({
-    name: yup.string(),
-    email: yup.string().email("deve ser um e-mail válido"),
-    telephone: yup.string(),
+    name: yup.string().required(),
+    email: yup.string().email("deve ser um e-mail válido").required(),
+    telephone: yup.string().required(),
   });
+
+  const [inputName, setInputName] = useState("");
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputFone, setInputFone] = useState("");
+
+  const nameError = inputName === "";
+  const emailError = inputEmail === "";
+  const foneError = inputFone === "";
 
   const {
     register,
@@ -59,7 +69,7 @@ const ModalFormUpdateContact = (id: any) => {
         <ModalContent>
           <ModalHeader>Atualizar Contato</ModalHeader>
           <ModalBody pb={6}>
-            <FormControl id="name" isRequired>
+            <FormControl id="name" isRequired isInvalid={nameError}>
               <FormLabel>Nome</FormLabel>
               <Input
                 required
@@ -67,18 +77,34 @@ const ModalFormUpdateContact = (id: any) => {
                 errorBorderColor="red.300"
                 type="text"
                 {...register("name")}
+                onChange={(e) => setInputName(e.target.value)}
               />
+              {nameError ? (
+                <FormHelperText>Digite o nome do contato</FormHelperText>
+              ) : (
+                <FormHelperText color={"red"}>
+                  {errors.name?.message}
+                </FormHelperText>
+              )}
             </FormControl>
-            <FormControl id="email" isRequired>
+            <FormControl id="email" isRequired isInvalid={emailError}>
               <FormLabel>E-mail</FormLabel>
               <Input
                 required
                 focusBorderColor="purple.600"
                 type="email"
                 {...register("email")}
+                onChange={(e) => setInputEmail(e.target.value)}
               />
+              {emailError ? (
+                <FormHelperText>Digite o e-mail do contato</FormHelperText>
+              ) : (
+                <FormHelperText color={"red"}>
+                  {errors.email?.message}
+                </FormHelperText>
+              )}
             </FormControl>
-            <FormControl id="telephone" isRequired>
+            <FormControl id="telephone" isRequired isInvalid={foneError}>
               <FormLabel>Telefone</FormLabel>
               <Input
                 required
@@ -86,7 +112,15 @@ const ModalFormUpdateContact = (id: any) => {
                 errorBorderColor="red.300"
                 type="text"
                 {...register("telephone")}
+                onChange={(e) => setInputFone(e.target.value)}
               />
+              {foneError ? (
+                <FormHelperText>Digite o telefone do contato </FormHelperText>
+              ) : (
+                <FormHelperText color={"red"}>
+                  {errors.telephone?.message}
+                </FormHelperText>
+              )}
             </FormControl>
           </ModalBody>
           <ModalFooter>
@@ -99,7 +133,7 @@ const ModalFormUpdateContact = (id: any) => {
               }}
               onClick={handleSubmit(onFormSubmit)}
             >
-              Adicionar
+              Atualizar
             </Button>
             <Button size="lg" onClick={onClose}>
               Cancel

@@ -3,8 +3,17 @@ import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
 import nookies from "nookies";
 import ModalFormCreateContact from "./modalFormCreateContact";
+import { useEffect, useState } from "react";
 
 const Header = () => {
+  const [name, setName] = useState("");
+
+  const cookies = nookies.get();
+
+  useEffect(() => {
+    setName(cookies["userName"]);
+  }, [cookies]);
+
   const router = useRouter();
 
   const logout = () => {
@@ -13,8 +22,6 @@ const Header = () => {
     destroyCookie(null, "userId");
     router.push("/");
   };
-
-  const cookies = nookies.get();
 
   return (
     <>
@@ -36,7 +43,7 @@ const Header = () => {
                 _hover={{}}
                 onClick={() => router.push("/client")}
               >
-                {cookies["userName"]}
+                {name}
               </Button>
             </Box>
           </HStack>

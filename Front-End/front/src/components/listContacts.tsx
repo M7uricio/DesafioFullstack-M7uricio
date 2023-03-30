@@ -89,7 +89,7 @@ const ListContacts = ({ contacts }: Props) => {
                   color={"red"}
                   fontSize={"1.5rem"}
                   _hover={{ fontSize: "1.6rem" }}
-                />{" "}
+                />
               </Button>
             </Flex>
           </ListItem>

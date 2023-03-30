@@ -5,6 +5,7 @@ import { Box, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
 import nookies from "nookies";
+import { setCookie } from "nookies";
 
 interface ClientProviderData {
   registerClient: (userData: IRegisterAndUpdateClient) => void;
@@ -20,6 +21,10 @@ export const ClientProvider = ({ children }: IProviderProps) => {
   const toast = useToast();
   const router = useRouter();
   const cookies = nookies.get();
+
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
 
   const registerClient = (userData: IRegisterAndUpdateClient) => {
     api
@@ -68,6 +73,19 @@ export const ClientProvider = ({ children }: IProviderProps) => {
     api
       .patch(`/client/${cookies["userId"]}`, userData)
       .then((response) => {
+        setCookie(null, "userName", response.data.name, {
+          maxAge: 60 * 30,
+          path: "/",
+        });
+        setCookie(null, "userEmail", response.data.email, {
+          maxAge: 60 * 30,
+          path: "/",
+        });
+        setCookie(null, "userFone", response.data.telephone, {
+          maxAge: 60 * 30,
+          path: "/",
+        });
+        refreshData();
         toast({
           title: "sucess",
           variant: "solid",

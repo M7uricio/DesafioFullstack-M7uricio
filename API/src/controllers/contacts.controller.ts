@@ -25,7 +25,7 @@ export const updateContactsController = async (
   res: Response
 ): Promise<Response> => {
   const data = await updateContactsService(req.body, +req.params.id);
-  return res.status(200).json(data);
+  return res.status(201).json(data);
 };
 
 export const deleteContactsController = async (
@@ -33,5 +33,5 @@ export const deleteContactsController = async (
   res: Response
 ): Promise<Response> => {
   const data = await deleteContactsService(+req.params.id);
-  return res.status(200).json(data);
+  return res.status(204).json(data);
 };

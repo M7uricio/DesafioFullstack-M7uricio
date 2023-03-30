@@ -11,6 +11,7 @@ import {
   Heading,
   useColorModeValue,
   Link,
+  FormHelperText,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -29,6 +30,12 @@ const LoginForm = () => {
     email: yup.string().email().required("E-mail obrigatório"),
     password: yup.string().required("Senha obrigatório"),
   });
+
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
+
+  const emailError = inputEmail === "";
+  const passwordError = inputPassword === "";
 
   const {
     register,
@@ -70,7 +77,7 @@ const LoginForm = () => {
             p={8}
           >
             <Stack spacing={4} minW={"200px"}>
-              <FormControl id="email" isRequired>
+              <FormControl id="email" isRequired isInvalid={emailError}>
                 <FormLabel>E-mail</FormLabel>
                 <Input
                   required
@@ -78,9 +85,17 @@ const LoginForm = () => {
                   focusBorderColor="purple.700"
                   type="email"
                   {...register("email")}
+                  onChange={(e) => setInputEmail(e.target.value)}
                 />
+                {emailError ? (
+                  <FormHelperText>Digite seu e-mail</FormHelperText>
+                ) : (
+                  <FormHelperText color={"red"}>
+                    {errors.email?.message}
+                  </FormHelperText>
+                )}
               </FormControl>
-              <FormControl id="password" isRequired>
+              <FormControl id="password" isRequired isInvalid={passwordError}>
                 <FormLabel>Senha</FormLabel>
                 <InputGroup>
                   <Input
@@ -89,6 +104,7 @@ const LoginForm = () => {
                     focusBorderColor="purple.700"
                     type={showPassword ? "text" : "password"}
                     {...register("password")}
+                    onChange={(e) => setInputPassword(e.target.value)}
                   />
                   <InputRightElement h={"full"}>
                     <Button
@@ -101,6 +117,13 @@ const LoginForm = () => {
                     </Button>
                   </InputRightElement>
                 </InputGroup>
+                {passwordError ? (
+                  <FormHelperText>Digite sua senha</FormHelperText>
+                ) : (
+                  <FormHelperText color={"red"}>
+                    {errors.password?.message}
+                  </FormHelperText>
+                )}
               </FormControl>
 
               <Stack spacing={10} pt={2}>

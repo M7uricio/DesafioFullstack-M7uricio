@@ -3,6 +3,7 @@ import { IRegisterandUpdateContacts, IProviderProps } from "@/types";
 import api from "@/services/api";
 import { Box, useToast } from "@chakra-ui/react";
 import nookies from "nookies";
+import { useRouter } from "next/router";
 interface ContactProviderData {
   createContact: (contactData: IRegisterandUpdateContacts) => void;
   updateContact: (contactData: IRegisterandUpdateContacts, id: string) => void;
@@ -17,12 +18,19 @@ export const ContactProvider = ({ children }: IProviderProps) => {
   const toast = useToast();
   const cookies = nookies.get();
 
+  const router = useRouter();
+
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
+
   const createContact = (contactData: IRegisterandUpdateContacts) => {
     api
       .post("/contacts", contactData, {
         headers: { Authorization: `Bearer ${cookies["token"]}` },
       })
       .then((response) => {
+        refreshData();
         toast({
           title: "sucess",
           variant: "solid",
@@ -71,6 +79,7 @@ export const ContactProvider = ({ children }: IProviderProps) => {
         headers: { Authorization: `Bearer ${cookies["token"]}` },
       })
       .then((response) => {
+        refreshData();
         toast({
           title: "sucess",
           variant: "solid",
@@ -116,6 +125,7 @@ export const ContactProvider = ({ children }: IProviderProps) => {
         headers: { Authorization: `Bearer ${cookies["token"]}` },
       })
       .then((response) => {
+        refreshData();
         toast({
           title: "sucess",
           variant: "solid",
