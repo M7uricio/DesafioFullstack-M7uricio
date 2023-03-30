@@ -27,3 +27,5 @@ yarn dev
 ```
 
 Dessa forma o projeto está pronto para seu utilizado na url base [http://localhost:3001](http://localhost:3001)
+
+A API também está disponível na urlBase em produção:[https://desafio-full-stack.onrender.com](https://desafio-full-stack.onrender.com)
