@@ -11,6 +11,20 @@ const createSessionService = async ({ email, password }: IUserLogin) => {
 
   const user = await clientRepo.findOneBy({ email: email });
 
+  const clients = clientRepo.find({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      telephone: true,
+      orderedAt: true,
+    },
+  });
+
+  const userWithoutPassword = (await clients).filter((elm) => {
+    return elm.email == email;
+  });
+
   if (!user) {
     throw new AppError("User or password invalid", 403);
   }
@@ -25,7 +39,8 @@ const createSessionService = async ({ email, password }: IUserLogin) => {
     subject: String(user.id),
     expiresIn: "24h",
   });
-  return { token, user: user };
+
+  return { token, user: userWithoutPassword[0] };
 };
 
 export { createSessionService };
