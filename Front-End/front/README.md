@@ -27,3 +27,5 @@ yarn dev
 Em seguida abra o [http://localhost:3000](http://localhost:3000) no seu navegador para ver o a aplicação.
 
 Obs: Para o Front-End rodar a API no Back-End tem que estar rodando !
+
+A aplica
