@@ -1,6 +1,5 @@
 import { Box, Flex, HStack, Text, Button, Icon } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-
 import nookies from "nookies";
 import { AiFillHome } from "react-icons/ai";
 

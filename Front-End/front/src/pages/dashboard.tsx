@@ -1,5 +1,5 @@
-import Header from "@/components/header";
-import ListContacts from "@/components/listContacts";
+import Header from "@/components/headers/header";
+import ListContacts from "@/components/lists/listContacts";
 import api from "@/services/api";
 import { IContacts } from "@/types";
 import { GetServerSideProps, NextPage } from "next";

@@ -18,6 +18,14 @@ npm install
 yarn
 ```
 
+Rode as migrações no seu banco de dados com o comando:
+
+```bash
+npm typeorm migration:run
+# or
+yarn typeorm migration:run -d src/data-source.ts
+```
+
 Execute o servidor de desenvolvimento:
 
 ```bash

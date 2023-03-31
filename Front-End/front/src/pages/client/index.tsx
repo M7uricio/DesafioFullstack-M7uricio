@@ -1,6 +1,6 @@
-import HeaderClient from "@/components/headerClient";
-import InfoClient from "@/components/infoClient";
-import ModalFormUpdateClient from "@/components/modalFormUpdateClient";
+import HeaderClient from "@/components/headers/headerClient";
+import InfoClient from "@/components/other/infoClient";
+import ModalFormUpdateClient from "@/components/modals/modalFormUpdateClient";
 import { useClient } from "@/contexts/clientContext";
 import { Button, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";

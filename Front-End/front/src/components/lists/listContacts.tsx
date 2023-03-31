@@ -2,7 +2,7 @@ import { IContacts } from "@/types";
 import { Flex, Button, List, ListItem, Icon, Text } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useContact } from "@/contexts/contactContext";
-import ModalFormUpdateContact from "./modalFormUpdateContact";
+import ModalFormUpdateContact from "../modals/modalFormUpdateContact";
 
 interface Props {
   contacts: IContacts[];

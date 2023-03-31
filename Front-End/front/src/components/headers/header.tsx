@@ -2,7 +2,7 @@ import { Box, Flex, HStack, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
 import nookies from "nookies";
-import ModalFormCreateContact from "./modalFormCreateContact";
+import ModalFormCreateContact from "../modals/modalFormCreateContact";
 import { useEffect, useState } from "react";
 
 const Header = () => {
